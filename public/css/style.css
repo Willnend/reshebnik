@@ -787,22 +787,226 @@ body.hide-answers .exercise-content .sdvig:hover {
 
 
 
+/* ================== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ (СВЕТЛАЯ / ТЁМНАЯ) ================== */
+body {
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+.app-header, .page-nav-bar, .page-card, .book-tab, .tool-btn, .search-box-inline {
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+body.theme-dark {
+  --bg: #0B0F19;
+  --surface: #1E293B;
+  --border: #334155;
+  --text-main: #F8FAFC;
+  --text-muted: #94A3B8;
+  --primary: #3B82F6;
+  --primary-hover: #60A5FA;
+  --primary-light: rgba(59, 130, 246, 0.2);
+  --otvet-bg: #064E3B;
+  --otvet-border: #059669;
+  --otvet-text: #ECFDF5;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.4);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.45);
+  --shadow-lg: 0 10px 25px rgba(0,0,0,0.55);
+}
+
+/* Тёмная тема: кнопки шапки */
+body.theme-dark .tool-btn {
+  background: #334155;
+  border-color: #475569;
+  color: #F8FAFC;
+}
+body.theme-dark .tool-btn:hover, body.theme-dark .tool-btn:active {
+  background: #475569;
+}
+body.theme-dark .toggle-answers-btn {
+  background: #451A03;
+  color: #FCD34D;
+  border-color: #78350F;
+}
+body.theme-dark .toggle-answers-btn.active {
+  background: #064E3B;
+  color: #6EE7B7;
+  border-color: #059669;
+}
+body.theme-dark .theme-toggle-btn {
+  background: #334155;
+  color: #FCD34D;
+  border-color: #475569;
+}
+body.theme-dark .theme-toggle-btn:hover {
+  background: #475569;
+}
+
+/* Тёмная тема: вкладки учебников */
+body.theme-dark .book-tab {
+  background: #1E293B;
+  color: #94A3B8;
+}
+body.theme-dark .book-tab:hover {
+  background: #334155;
+  color: #F8FAFC;
+}
+body.theme-dark .book-tab.active {
+  background: rgba(59, 130, 246, 0.25);
+  border-color: var(--primary);
+  color: #60A5FA;
+}
+
+/* Тёмная тема: панель навигации по страницам */
+body.theme-dark .parts-selector {
+  background: #0F172A;
+  border: 1px solid #334155;
+}
+body.theme-dark .part-btn {
+  color: #94A3B8;
+}
+body.theme-dark .part-btn.active {
+  background: #334155;
+  color: #60A5FA;
+}
+
+body.theme-dark .page-display-box {
+  background: #1E293B;
+  border-color: #334155;
+}
+body.theme-dark .nav-arrow-btn {
+  background: #334155;
+  border-color: #475569;
+  color: #F8FAFC;
+}
+body.theme-dark .nav-arrow-btn:hover {
+  background: #475569;
+}
+
+/* Тёмная тема: инлайн-поиск */
+body.theme-dark .search-box-inline {
+  background: #1E293B;
+  border-color: #334155;
+}
+body.theme-dark .search-box-inline:focus-within {
+  background: #0F172A;
+  border-color: var(--primary);
+}
+body.theme-dark .inline-search-input {
+  color: #F8FAFC;
+}
+body.theme-dark .clear-search-btn {
+  background: #475569;
+  color: #F8FAFC;
+}
+body.theme-dark .clear-search-btn:hover {
+  background: #64748B;
+}
+body.theme-dark .inline-search-results {
+  background: #1E293B;
+  border-color: #334155;
+}
+body.theme-dark .dropdown-search-item {
+  border-bottom-color: #334155;
+}
+body.theme-dark .dropdown-search-item:hover,
+body.theme-dark .dropdown-search-item.active {
+  background: rgba(59, 130, 246, 0.22);
+}
+body.theme-dark .dropdown-item-page {
+  background: #334155;
+  color: #E2E8F0;
+}
+
+/* Тёмная тема: карточка страницы и задания */
+body.theme-dark .page-header-info {
+  border-bottom-color: #334155;
+}
+body.theme-dark .page-topic-tag {
+  background: #451A03;
+  color: #FCD34D;
+}
+body.theme-dark .edition-switch-box {
+  background: #0F172A;
+  border: 1px solid #334155;
+}
+body.theme-dark .edition-btn {
+  background: #1E293B;
+  border-color: #475569;
+  color: #F8FAFC;
+}
+body.theme-dark .edition-btn.active {
+  background: var(--primary);
+  color: #FFFFFF;
+}
+
+body.theme-dark .exercise-content .nomer-bold {
+  background: #334155;
+  color: #93C5FD;
+}
+body.theme-dark .exercise-content .otvet {
+  background: #059669;
+  color: #FFFFFF;
+}
+body.theme-dark .exercise-content .sdvig {
+  background: rgba(5, 150, 105, 0.16);
+  border-left-color: #10B981;
+  color: #E2E8F0;
+}
+body.theme-dark .exercise-content img {
+  background: #FFFFFF;
+  border-color: #475569;
+  filter: brightness(0.92) contrast(1.05);
+}
+
+/* Тёмная тема: сенсорная клавиатура Numpad */
+body.theme-dark .numpad-card {
+  background: #1E293B;
+  border: 1px solid #334155;
+}
+body.theme-dark .numpad-display {
+  background: #0F172A;
+  border-color: #334155;
+  color: #60A5FA;
+}
+body.theme-dark .num-key {
+  background: #334155;
+  border-color: #475569;
+  color: #F8FAFC;
+}
+body.theme-dark .num-key:hover, body.theme-dark .num-key:active {
+  background: #475569;
+}
+body.theme-dark .num-key.clear-key {
+  background: #450A0A;
+  color: #FCA5A5;
+  border-color: #7F1D1D;
+}
+body.theme-dark .num-key.enter-key {
+  background: var(--primary);
+  color: #FFFFFF;
+}
+
 /* ================== АДАПТИВНОСТЬ (IPAD, IPHONE, ДЕСКТОП) ================== */
 @media (max-width: 768px) {
   .header-container {
     flex-wrap: wrap;
+    gap: 10px;
   }
   .brand-title {
     font-size: 1rem;
   }
   .teacher-toolbar {
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-end;
+    gap: 6px;
+    flex-wrap: nowrap;
     overflow-x: auto;
   }
   .tool-btn {
     padding: 6px 10px;
-    font-size: 0.8rem;
+    font-size: 0.82rem;
+    white-space: nowrap;
+    min-height: 36px;
   }
   .page-nav-container {
     flex-direction: column;
@@ -817,5 +1021,16 @@ body.hide-answers .exercise-content .sdvig:hover {
   }
   .page-main-heading {
     font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .teacher-toolbar {
+    justify-content: space-between;
+  }
+  .tool-btn {
+    padding: 5px 8px;
+    font-size: 0.75rem;
+    gap: 4px;
   }
 }

@@ -15,6 +15,7 @@ class TeacherApp {
     this.fontSizes = ['font-sm', 'font-md', 'font-lg', 'font-xl'];
     this.fontLabels = ['100%', '125%', '155%', '190%'];
     this.fontNames = ['Обычный', 'Крупный', 'Большой', 'Проектор'];
+    this.currentTheme = 'light';
     this.searchIndex = [];
     this.numpadBuffer = '';
 
@@ -50,6 +51,14 @@ class TeacherApp {
   }
 
   loadSavedSettings() {
+    // Тема оформления (Светлая / Тёмная)
+    const savedTheme = localStorage.getItem('teacher_theme');
+    if (savedTheme === 'dark' || (!savedTheme && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      this.setTheme('dark');
+    } else {
+      this.setTheme('light');
+    }
+
     const savedFont = localStorage.getItem('teacher_font_size');
     if (savedFont !== null && !isNaN(parseInt(savedFont, 10))) {
       const idx = parseInt(savedFont, 10);
@@ -337,6 +346,41 @@ class TeacherApp {
   cycleFontSize() {
     this.fontSizeIndex = (this.fontSizeIndex + 1) % this.fontSizes.length;
     this.updateFontSizeUI();
+  }
+
+  // ================= ТЕМА ОФОРМЛЕНИЯ (СВЕТЛАЯ / ТЁМНАЯ) =================
+  setTheme(theme) {
+    this.currentTheme = theme;
+    const isDark = theme === 'dark';
+    document.body.classList.toggle('theme-dark', isDark);
+
+    const btn = document.getElementById('themeToggleBtn');
+    if (btn) {
+      const icon = btn.querySelector('.theme-icon');
+      const label = btn.querySelector('.theme-label');
+      if (icon && label) {
+        icon.textContent = isDark ? '☀️' : '🌙';
+        label.textContent = isDark ? 'Светлая' : 'Тёмная';
+      } else {
+        btn.innerHTML = isDark
+          ? '<span class="theme-icon">☀️</span> <span class="theme-label">Светлая</span>'
+          : '<span class="theme-icon">🌙</span> <span class="theme-label">Тёмная</span>';
+      }
+      btn.title = isDark ? 'Переключить на светлую тему' : 'Переключить на тёмную тему для вечерней работы';
+    }
+
+    // Обновляем цвет статус-бара iOS / браузера
+    const metaTheme = document.querySelector('meta[name="theme-color"]');
+    if (metaTheme) {
+      metaTheme.setAttribute('content', isDark ? '#0B0F19' : '#2563EB');
+    }
+
+    localStorage.setItem('teacher_theme', theme);
+  }
+
+  toggleTheme() {
+    const nextTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
+    this.setTheme(nextTheme);
   }
 
   // ================= NUMPAD ДЛЯ БЫСТРОГО НАБОРА НА IPAD =================
@@ -707,9 +751,10 @@ class TeacherApp {
       if (e.target.id === 'numpadModal') this.closeNumpad();
     });
 
-    // Учительские кнопки: Скрытие ответов, шрифт
+    // Учительские кнопки: Скрытие ответов, шрифт, тема
     document.getElementById('toggleAnswersBtn')?.addEventListener('click', () => this.toggleAnswers());
     document.getElementById('fontSizeBtn')?.addEventListener('click', () => this.cycleFontSize());
+    document.getElementById('themeToggleBtn')?.addEventListener('click', () => this.toggleTheme());
 
     // Переключатель годов (2020 / 2023)
     document.querySelectorAll('.edition-btn').forEach(btn => {
@@ -772,6 +817,9 @@ class TeacherApp {
           searchInput.focus();
           searchInput.select();
         }
+      } else if ((e.key === 'd' || e.key === 'в' || e.key === 'D' || e.key === 'В') && (e.ctrlKey || e.metaKey) && e.shiftKey) {
+        e.preventDefault();
+        this.toggleTheme();
       }
     });
   }
