@@ -16,6 +16,7 @@ class TeacherApp {
     this.fontLabels = ['100%', '125%', '155%', '190%'];
     this.fontNames = ['Обычный', 'Крупный', 'Большой', 'Проектор'];
     this.currentTheme = 'light';
+    this.isFullScreen = false;
     this.searchIndex = [];
     this.numpadBuffer = '';
 
@@ -381,6 +382,62 @@ class TeacherApp {
   toggleTheme() {
     const nextTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
     this.setTheme(nextTheme);
+  }
+
+  // ================= ПОЛНОЭКРАННЫЙ РЕЖИМ (ДЛЯ ПРОЕКТОРА) =================
+  toggleFullScreen() {
+    if (window.electronAPI && window.electronAPI.toggleFullScreen) {
+      window.electronAPI.toggleFullScreen();
+      return;
+    }
+
+    if (!document.fullscreenElement) {
+      if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen().catch(() => {});
+      }
+    }
+  }
+
+  exitFullScreen() {
+    if (window.electronAPI && window.electronAPI.exitFullScreen) {
+      window.electronAPI.exitFullScreen();
+      return;
+    }
+
+    if (document.fullscreenElement && document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {});
+    }
+  }
+
+  setFullScreenState(isFull) {
+    this.isFullScreen = isFull;
+    document.body.classList.toggle('fullscreen-mode', isFull);
+
+    const btn = document.getElementById('fullscreenBtn');
+    if (btn) {
+      const icon = btn.querySelector('.fs-icon');
+      const label = btn.querySelector('.fs-label');
+      if (isFull) {
+        if (icon) icon.textContent = '🗗';
+        if (label) label.textContent = 'Свернуть';
+        btn.classList.add('active-fullscreen');
+        btn.title = 'Свернуть полноэкранный режим (Esc / F11)';
+      } else {
+        if (icon) icon.textContent = '⛶';
+        if (label) label.textContent = 'Экран';
+        btn.classList.remove('active-fullscreen');
+        btn.title = 'Полноэкранный режим для проектора (F11)';
+      }
+    }
+
+    const floatingBtn = document.getElementById('floatingExitFsBtn');
+    if (floatingBtn) {
+      floatingBtn.style.display = isFull ? 'inline-flex' : 'none';
+    }
   }
 
   // ================= NUMPAD ДЛЯ БЫСТРОГО НАБОРА НА IPAD =================
@@ -751,10 +808,23 @@ class TeacherApp {
       if (e.target.id === 'numpadModal') this.closeNumpad();
     });
 
-    // Учительские кнопки: Скрытие ответов, шрифт, тема
+    // Учительские кнопки: Скрытие ответов, шрифт, тема, полный экран
     document.getElementById('toggleAnswersBtn')?.addEventListener('click', () => this.toggleAnswers());
     document.getElementById('fontSizeBtn')?.addEventListener('click', () => this.cycleFontSize());
     document.getElementById('themeToggleBtn')?.addEventListener('click', () => this.toggleTheme());
+    document.getElementById('fullscreenBtn')?.addEventListener('click', () => this.toggleFullScreen());
+    document.getElementById('floatingExitFsBtn')?.addEventListener('click', () => this.exitFullScreen());
+
+    // Отслеживание перехода в полноэкранный режим
+    document.addEventListener('fullscreenchange', () => {
+      this.setFullScreenState(!!document.fullscreenElement);
+    });
+
+    if (window.electronAPI && window.electronAPI.onFullScreenChange) {
+      window.electronAPI.onFullScreenChange((isFull) => {
+        this.setFullScreenState(isFull);
+      });
+    }
 
     // Переключатель годов (2020 / 2023)
     document.querySelectorAll('.edition-btn').forEach(btn => {
@@ -776,6 +846,11 @@ class TeacherApp {
       const searchInput = document.getElementById('inlineSearchInput');
 
       if (e.key === 'Escape') {
+        if (this.isFullScreen || document.fullscreenElement) {
+          e.preventDefault();
+          this.exitFullScreen();
+          return;
+        }
         if (searchResults && searchResults.style.display !== 'none') {
           this.closeInlineSearchResults();
           return;
@@ -787,6 +862,38 @@ class TeacherApp {
         if (document.getElementById('lightboxModal')?.classList.contains('open')) {
           this.closeLightbox();
           return;
+        }
+      }
+
+      if (e.key === 'F11') {
+        // В браузере перехватываем F11 для переключения состояния
+        if (!window.electronAPI) {
+          e.preventDefault();
+          this.toggleFullScreen();
+          return;
+        }
+      }
+
+      // Зум через клавиатуру Ctrl + / Ctrl - / Ctrl 0
+      if (e.ctrlKey || e.metaKey) {
+        if (e.key === '=' || e.key === '+') {
+          if (window.electronAPI && window.electronAPI.zoomIn) {
+            e.preventDefault();
+            window.electronAPI.zoomIn();
+            return;
+          }
+        } else if (e.key === '-' || e.key === '_') {
+          if (window.electronAPI && window.electronAPI.zoomOut) {
+            e.preventDefault();
+            window.electronAPI.zoomOut();
+            return;
+          }
+        } else if (e.key === '0') {
+          if (window.electronAPI && window.electronAPI.resetZoom) {
+            e.preventDefault();
+            window.electronAPI.resetZoom();
+            return;
+          }
         }
       }
 

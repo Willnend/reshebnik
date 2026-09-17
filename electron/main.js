@@ -3,7 +3,7 @@
  * Запускает нативное окно Windows и встроенный локальный сервер данных.
  */
 
-const { app, BrowserWindow, Menu } = require('electron');
+const { app, BrowserWindow, Menu, ipcMain } = require('electron');
 const path = require('path');
 const http = require('http');
 const fs = require('fs');
@@ -137,7 +137,8 @@ async function createWindow() {
     backgroundColor: '#F8FAFC',
     webPreferences: {
       nodeIntegration: false,
-      contextIsolation: true
+      contextIsolation: true,
+      preload: path.join(__dirname, 'preload.js')
     }
   });
 
@@ -154,11 +155,56 @@ async function createWindow() {
     {
       label: 'Вид',
       submenu: [
-        { label: 'Увеличить шрифт', accelerator: 'Ctrl+=', click: () => mainWindow.webContents.send('zoom-in') },
-        { label: 'Уменьшить шрифт', accelerator: 'Ctrl+-', click: () => mainWindow.webContents.send('zoom-out') },
-        { label: 'Сбросить масштаб', accelerator: 'Ctrl+0', click: () => mainWindow.webContents.setZoomLevel(0) },
+        {
+          label: 'Увеличить масштаб',
+          accelerator: 'CommandOrControl+Plus',
+          click: () => {
+            if (mainWindow) {
+              const current = mainWindow.webContents.getZoomLevel();
+              mainWindow.webContents.setZoomLevel(Math.min(current + 0.5, 4));
+            }
+          }
+        },
+        {
+          label: 'Увеличить масштаб (=)',
+          accelerator: 'CommandOrControl+=',
+          visible: false,
+          click: () => {
+            if (mainWindow) {
+              const current = mainWindow.webContents.getZoomLevel();
+              mainWindow.webContents.setZoomLevel(Math.min(current + 0.5, 4));
+            }
+          }
+        },
+        {
+          label: 'Уменьшить масштаб',
+          accelerator: 'CommandOrControl+-',
+          click: () => {
+            if (mainWindow) {
+              const current = mainWindow.webContents.getZoomLevel();
+              mainWindow.webContents.setZoomLevel(Math.max(current - 0.5, -2));
+            }
+          }
+        },
+        {
+          label: 'Сбросить масштаб',
+          accelerator: 'CommandOrControl+0',
+          click: () => {
+            if (mainWindow) {
+              mainWindow.webContents.setZoomLevel(0);
+            }
+          }
+        },
         { type: 'separator' },
-        { label: 'Полноэкранный режим (для проектора)', accelerator: 'F11', click: () => mainWindow.setFullScreen(!mainWindow.isFullScreen()) }
+        {
+          label: 'Полноэкранный режим (для проектора)',
+          accelerator: 'F11',
+          click: () => {
+            if (mainWindow) {
+              mainWindow.setFullScreen(!mainWindow.isFullScreen());
+            }
+          }
+        }
       ]
     },
     {
@@ -182,6 +228,42 @@ async function createWindow() {
 
   const menu = Menu.buildFromTemplate(template);
   Menu.setApplicationMenu(menu);
+
+  // Оповещения рендерера об изменении полноэкранного режима
+  mainWindow.on('enter-full-screen', () => {
+    mainWindow.webContents.send('fullscreen-change', true);
+  });
+
+  mainWindow.on('leave-full-screen', () => {
+    mainWindow.webContents.send('fullscreen-change', false);
+  });
+
+  // IPC-обработчики от веб-интерфейса
+  ipcMain.on('toggle-fullscreen', () => {
+    if (mainWindow) mainWindow.setFullScreen(!mainWindow.isFullScreen());
+  });
+
+  ipcMain.on('exit-fullscreen', () => {
+    if (mainWindow && mainWindow.isFullScreen()) mainWindow.setFullScreen(false);
+  });
+
+  ipcMain.on('zoom-in', () => {
+    if (mainWindow) {
+      const current = mainWindow.webContents.getZoomLevel();
+      mainWindow.webContents.setZoomLevel(Math.min(current + 0.5, 4));
+    }
+  });
+
+  ipcMain.on('zoom-out', () => {
+    if (mainWindow) {
+      const current = mainWindow.webContents.getZoomLevel();
+      mainWindow.webContents.setZoomLevel(Math.max(current - 0.5, -2));
+    }
+  });
+
+  ipcMain.on('reset-zoom', () => {
+    if (mainWindow) mainWindow.webContents.setZoomLevel(0);
+  });
 
   mainWindow.loadURL(`http://127.0.0.1:${serverPort}`);
 
