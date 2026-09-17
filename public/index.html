@@ -36,9 +36,6 @@
         <button id="fontSizeBtn" class="tool-btn" title="Изменить размер текста для проектора">
           <span>🔠</span> Шрифт
         </button>
-        <button id="syncBtn" class="tool-btn" title="Скачать все материалы в память iPad для работы без интернета">
-          <span>📲</span> Скачать на iPad
-        </button>
       </div>
     </div>
   </header>
@@ -73,12 +70,14 @@
         <button id="nextPageBtn" class="nav-arrow-btn" title="Следующая страница (→)">▶</button>
       </div>
 
-      <!-- Кнопка поиска -->
-      <button id="searchTriggerBtn" class="search-trigger-btn" title="Поиск по темам и тексту (Ctrl+F)">
-        <span>🔍</span>
-        <span>Поиск по теме...</span>
-        <span class="search-kbd">Ctrl+F</span>
-      </button>
+      <!-- Поле прямого поиска по теме или номеру страницы (без отдельного всплывающего окна) -->
+      <div class="search-box-inline">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="inlineSearchInput" class="inline-search-input" placeholder="Поиск темы (напр. Гласные) или страницы..." autocomplete="off">
+        <button id="clearSearchBtn" class="clear-search-btn" title="Очистить" style="display:none;">&times;</button>
+        <!-- Выпадающие результаты поиска прямо под строкой -->
+        <div id="inlineSearchResults" class="inline-search-results" style="display:none;"></div>
+      </div>
     </div>
   </div>
 
@@ -136,42 +135,10 @@
     </div>
   </div>
 
-  <!-- ОКНО ПОИСКА -->
-  <div id="searchModal" class="search-modal">
-    <div class="search-dialog">
-      <div class="search-input-wrap">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="searchField" class="search-field" placeholder="Поиск по теме (напр. Гласные) или номеру страницы..." autocomplete="off">
-        <button id="searchCloseBtn" class="search-close-btn">&times;</button>
-      </div>
-      <div id="searchResultsList" class="search-results-list">
-        <!-- Результаты поиска -->
-      </div>
-    </div>
-  </div>
-
   <!-- LIGHTBOX ДЛЯ УВЕЛИЧЕНИЯ КАРТИНОК -->
   <div id="lightboxModal" class="lightbox-modal">
     <button id="lightboxClose" class="lightbox-close">&times;</button>
     <img id="lightboxImg" class="lightbox-img" src="" alt="Увеличенное изображение">
-  </div>
-
-  <!-- МОДАЛЬНОЕ ОКНО ОФЛАЙН-СИНХРОНИЗАЦИИ ДЛЯ IPAD -->
-  <div id="syncModal" class="sync-modal">
-    <div class="sync-card">
-      <div class="sync-icon">📲</div>
-      <div class="sync-title">Офлайн-синхронизация</div>
-      <div class="sync-desc">Сохранение всех 5 учебников и иллюстраций в локальную память iPad / iPhone для работы без интернета.</div>
-
-      <div class="progress-bar-wrap">
-        <div id="syncProgressFill" class="progress-bar-fill"></div>
-      </div>
-      <div id="syncProgressLabel" class="progress-label">Подготовка...</div>
-
-      <button id="syncCloseBtn" class="tool-btn primary" style="margin-top: 20px; display: none;">
-        Отлично, готово!
-      </button>
-    </div>
   </div>
 
   <script src="./js/storage.js"></script>

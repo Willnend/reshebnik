@@ -33,11 +33,10 @@ class TeacherApp {
 
     // Фоновая загрузка поискового индекса
     window.appStorage.getSearchIndex().then(index => {
-      this.searchIndex = index;
+      this.searchIndex = index || [];
     });
 
-    // Проверка статуса офлайн-синхронизации
-    this.checkSyncStatus();
+    this.setupInlineSearch();
   }
 
   initServiceWorker() {
@@ -59,19 +58,6 @@ class TeacherApp {
     const savedHide = localStorage.getItem('teacher_hide_answers');
     if (savedHide === 'true') {
       this.toggleAnswers(true);
-    }
-  }
-
-  async checkSyncStatus() {
-    const isSynced = await window.appStorage.isFullySynced();
-    const btn = document.getElementById('syncBtn');
-    if (btn) {
-      if (isSynced) {
-        btn.innerHTML = '<span>⚡</span> Офлайн готов';
-        btn.classList.add('primary');
-      } else {
-        btn.innerHTML = '<span>📲</span> Скачать на iPad';
-      }
     }
   }
 
@@ -396,75 +382,219 @@ class TeacherApp {
     alert(`Страница ${pageNum} не найдена в текущем учебнике`);
   }
 
-  // ================= ПОИСК ПО ТЕМАМ И ТЕКСТУ =================
-  openSearch() {
-    const modal = document.getElementById('searchModal');
-    const input = document.getElementById('searchField');
-    if (modal) modal.classList.add('open');
-    if (input) {
-      input.value = '';
-      input.focus();
-      this.renderSearchResults([]);
+  // ================= ПРЯМОЙ ПОИСК ПО ТЕМАМ И СТРАНИЦАМ =================
+  setupInlineSearch() {
+    const input = document.getElementById('inlineSearchInput');
+    const clearBtn = document.getElementById('clearSearchBtn');
+    const resultsContainer = document.getElementById('inlineSearchResults');
+    if (!input || !resultsContainer) return;
+
+    let selectedIndex = -1;
+
+    const doSearch = () => {
+      const q = input.value.trim();
+      if (!q) {
+        if (clearBtn) clearBtn.style.display = 'none';
+        this.closeInlineSearchResults();
+        return;
+      }
+
+      if (clearBtn) clearBtn.style.display = 'flex';
+      selectedIndex = -1;
+      this.handleInlineSearch(q);
+    };
+
+    input.addEventListener('input', () => {
+      doSearch();
+    });
+
+    input.addEventListener('focus', () => {
+      if (input.value.trim()) {
+        doSearch();
+      }
+    });
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        input.value = '';
+        clearBtn.style.display = 'none';
+        this.closeInlineSearchResults();
+        input.focus();
+      });
+    }
+
+    input.addEventListener('keydown', (e) => {
+      const items = resultsContainer.querySelectorAll('.dropdown-search-item');
+      if (resultsContainer.style.display !== 'none' && items.length > 0) {
+        if (e.key === 'ArrowDown') {
+          e.preventDefault();
+          selectedIndex = (selectedIndex + 1) % items.length;
+          this.updateDropdownActiveItem(items, selectedIndex);
+          return;
+        } else if (e.key === 'ArrowUp') {
+          e.preventDefault();
+          selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+          this.updateDropdownActiveItem(items, selectedIndex);
+          return;
+        } else if (e.key === 'Enter') {
+          e.preventDefault();
+          if (selectedIndex >= 0 && items[selectedIndex]) {
+            items[selectedIndex].click();
+          } else if (items.length > 0) {
+            items[0].click();
+          }
+          return;
+        }
+      }
+
+      if (e.key === 'Enter') {
+        const q = input.value.trim();
+        const matchPage = q.match(/^(?:стр\.?\s*)?(\d+)$/i);
+        if (matchPage) {
+          e.preventDefault();
+          const pageNum = parseInt(matchPage[1], 10);
+          this.closeInlineSearchResults();
+          this.jumpToPage(pageNum);
+        }
+      } else if (e.key === 'Escape') {
+        this.closeInlineSearchResults();
+        input.blur();
+      }
+    });
+
+    // Закрытие выпадающего списка при клике вне зоны поиска
+    document.addEventListener('click', (e) => {
+      const searchBox = document.querySelector('.search-box-inline');
+      if (searchBox && !searchBox.contains(e.target)) {
+        this.closeInlineSearchResults();
+      }
+    });
+  }
+
+  updateDropdownActiveItem(items, index) {
+    items.forEach((item, idx) => {
+      if (idx === index) {
+        item.classList.add('active');
+        item.scrollIntoView({ block: 'nearest' });
+      } else {
+        item.classList.remove('active');
+      }
+    });
+  }
+
+  closeInlineSearchResults() {
+    const resultsContainer = document.getElementById('inlineSearchResults');
+    if (resultsContainer) {
+      resultsContainer.style.display = 'none';
+      resultsContainer.innerHTML = '';
     }
   }
 
-  closeSearch() {
-    const modal = document.getElementById('searchModal');
-    if (modal) modal.classList.remove('open');
-  }
-
-  handleSearch(query) {
-    const q = query.trim().toLowerCase();
+  async handleInlineSearch(query) {
+    const q = query.trim();
     if (!q) {
-      this.renderSearchResults([]);
+      this.closeInlineSearchResults();
       return;
     }
 
-    const isNum = !isNaN(parseInt(q, 10));
-    const qNum = isNum ? parseInt(q, 10) : null;
+    if (!this.searchIndex || this.searchIndex.length === 0) {
+      this.searchIndex = await window.appStorage.getSearchIndex() || [];
+    }
 
-    const results = this.searchIndex.filter(item => {
-      if (qNum !== null && item.page === qNum) return true;
-      if (item.topics && item.topics.some(t => t.toLowerCase().includes(q))) return true;
-      if (item.snippet && item.snippet.toLowerCase().includes(q)) return true;
-      return false;
-    }).slice(0, 25);
+    const qLower = q.toLowerCase();
+    const matchPage = q.match(/^(?:стр\.?\s*)?(\d+)$/i);
+    const qPageNum = matchPage ? parseInt(matchPage[1], 10) : null;
 
-    this.renderSearchResults(results, q);
+    let scoredResults = [];
+
+    // Если введено число (например: 15 или стр 15)
+    if (qPageNum !== null) {
+      // Предлагаем прямой переход в текущем учебнике
+      if (this.currentBook) {
+        scoredResults.push({
+          bookId: this.currentBookId,
+          bookTitle: this.currentBook.title,
+          part: this.currentPart,
+          page: qPageNum,
+          topics: ['⚡ Быстрый переход на страницу'],
+          snippet: `Открыть страницу ${qPageNum} в ${this.currentBook.title} (Часть ${this.currentPart})`,
+          score: 1000
+        });
+      }
+
+      // Добавляем страницы с таким номером из индекса всех учебников
+      for (const item of this.searchIndex) {
+        if (item.page === qPageNum) {
+          const isCurrentBook = item.bookId === this.currentBookId;
+          const isCurrentPart = isCurrentBook && item.part === this.currentPart;
+          scoredResults.push({
+            ...item,
+            score: isCurrentPart ? 500 : (isCurrentBook ? 400 : 200)
+          });
+        }
+      }
+    }
+
+    // Текстовый поиск по темам и сниппетам
+    for (const item of this.searchIndex) {
+      // Исключаем дубликаты, если уже добавлены по номеру страницы
+      if (qPageNum !== null && item.page === qPageNum) continue;
+
+      let score = 0;
+      const topicMatch = item.topics && item.topics.some(t => t.toLowerCase().includes(qLower));
+      const snippetMatch = item.snippet && item.snippet.toLowerCase().includes(qLower);
+
+      if (topicMatch) score += 100;
+      if (snippetMatch) score += 30;
+
+      if (score > 0) {
+        if (item.bookId === this.currentBookId) score += 25;
+        if (item.bookId === this.currentBookId && item.part === this.currentPart) score += 10;
+        scoredResults.push({ ...item, score });
+      }
+    }
+
+    scoredResults.sort((a, b) => b.score - a.score);
+    const topResults = scoredResults.slice(0, 20);
+
+    this.renderInlineSearchResults(topResults, q);
   }
 
-  renderSearchResults(results, query = '') {
-    const listEl = document.getElementById('searchResultsList');
-    if (!listEl) return;
-
-    if (!query) {
-      listEl.innerHTML = '<div style="text-align:center; padding: 20px; color: var(--text-muted);">Введите номер страницы или название темы...</div>';
-      return;
-    }
+  renderInlineSearchResults(results, query) {
+    const container = document.getElementById('inlineSearchResults');
+    if (!container) return;
 
     if (results.length === 0) {
-      listEl.innerHTML = '<div style="text-align:center; padding: 20px; color: var(--text-muted);">Ничего не найдено</div>';
+      container.innerHTML = `
+        <div style="padding: 16px; text-align: center; color: var(--text-muted); font-size: 0.9rem;">
+          Ничего не найдено по запросу "<b>${this.escapeHtml(query)}</b>"
+        </div>
+      `;
+      container.style.display = 'block';
       return;
     }
 
-    listEl.innerHTML = results.map(item => `
-      <div class="search-item" data-book="${item.bookId}" data-part="${item.part}" data-page="${item.page}">
-        <div class="search-item-header">
-          <span class="search-item-book">${item.bookTitle} (ч. ${item.part})</span>
-          <span class="search-item-page">Стр. ${item.page}</span>
+    container.innerHTML = results.map(item => `
+      <div class="dropdown-search-item" data-book="${this.escapeHtml(item.bookId)}" data-part="${item.part}" data-page="${item.page}">
+        <div class="dropdown-item-header">
+          <span class="dropdown-item-book">${this.escapeHtml(item.bookTitle)} (ч. ${item.part})</span>
+          <span class="dropdown-item-page">Стр. ${item.page}</span>
         </div>
-        ${item.topics && item.topics.length ? `<div class="search-item-topic">📌 ${item.topics.join(', ')}</div>` : ''}
-        <div class="search-item-snippet">${item.snippet}...</div>
+        ${item.topics && item.topics.length ? `<div class="dropdown-item-topic">📌 ${this.escapeHtml(item.topics.join(', '))}</div>` : ''}
+        ${item.snippet ? `<div class="dropdown-item-snippet">${this.escapeHtml(item.snippet)}</div>` : ''}
       </div>
     `).join('');
 
-    listEl.querySelectorAll('.search-item').forEach(el => {
+    container.querySelectorAll('.dropdown-search-item').forEach(el => {
       el.addEventListener('click', async () => {
         const bId = el.getAttribute('data-book');
         const part = parseInt(el.getAttribute('data-part'), 10);
         const page = parseInt(el.getAttribute('data-page'), 10);
 
-        this.closeSearch();
+        this.closeInlineSearchResults();
+
         if (this.currentBookId !== bId) {
           await this.selectBook(bId);
         }
@@ -474,6 +604,17 @@ class TeacherApp {
         this.goToPage(page);
       });
     });
+
+    container.style.display = 'block';
+  }
+
+  escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
   }
 
   // ================= LIGHTBOX ДЛЯ КАРТИНОК =================
@@ -488,37 +629,6 @@ class TeacherApp {
 
   closeLightbox() {
     const modal = document.getElementById('lightboxModal');
-    if (modal) modal.classList.remove('open');
-  }
-
-  // ================= ПОЛНАЯ ОФЛАЙН-СИНХРОНИЗАЦИЯ =================
-  startOfflineSync() {
-    const modal = document.getElementById('syncModal');
-    const progressFill = document.getElementById('syncProgressFill');
-    const progressLabel = document.getElementById('syncProgressLabel');
-    const closeBtn = document.getElementById('syncCloseBtn');
-
-    if (modal) modal.classList.add('open');
-    if (closeBtn) closeBtn.style.display = 'none';
-
-    window.appStorage.syncAll((event) => {
-      if (progressLabel) progressLabel.textContent = event.text;
-
-      if (event.total && event.current) {
-        const pct = Math.round((event.current / event.total) * 100);
-        if (progressFill) progressFill.style.width = `${pct}%`;
-      }
-
-      if (event.status === 'done') {
-        if (progressFill) progressFill.style.width = '100%';
-        if (closeBtn) closeBtn.style.display = 'inline-block';
-        this.checkSyncStatus();
-      }
-    });
-  }
-
-  closeSyncModal() {
-    const modal = document.getElementById('syncModal');
     if (modal) modal.classList.remove('open');
   }
 
@@ -577,11 +687,9 @@ class TeacherApp {
       if (e.target.id === 'numpadModal') this.closeNumpad();
     });
 
-    // Учительские кнопки: Скрытие ответов, шрифт, синхронизация
+    // Учительские кнопки: Скрытие ответов, шрифт
     document.getElementById('toggleAnswersBtn')?.addEventListener('click', () => this.toggleAnswers());
     document.getElementById('fontSizeBtn')?.addEventListener('click', () => this.cycleFontSize());
-    document.getElementById('syncBtn')?.addEventListener('click', () => this.startOfflineSync());
-    document.getElementById('syncCloseBtn')?.addEventListener('click', () => this.closeSyncModal());
 
     // Переключатель годов (2020 / 2023)
     document.querySelectorAll('.edition-btn').forEach(btn => {
@@ -591,36 +699,41 @@ class TeacherApp {
       });
     });
 
-    // Поиск
-    document.getElementById('searchTriggerBtn')?.addEventListener('click', () => this.openSearch());
-    document.getElementById('searchCloseBtn')?.addEventListener('click', () => this.closeSearch());
-    document.getElementById('searchField')?.addEventListener('input', (e) => this.handleSearch(e.target.value));
-    document.getElementById('searchModal')?.addEventListener('click', (e) => {
-      if (e.target.id === 'searchModal') this.closeSearch();
-    });
-
     // Lightbox закрытие
     document.getElementById('lightboxClose')?.addEventListener('click', () => this.closeLightbox());
     document.getElementById('lightboxModal')?.addEventListener('click', (e) => {
       if (e.target.id === 'lightboxModal') this.closeLightbox();
     });
 
-    // Горячие клавиши на клавиатуре (Windows)
+    // Горячие клавиши на клавиатуре (Windows / Mac)
     window.addEventListener('keydown', (e) => {
-      // Если открыт поиск или модалки, не перехватываем
-      if (document.getElementById('searchModal')?.classList.contains('open')) {
-        if (e.key === 'Escape') this.closeSearch();
-        return;
+      const searchResults = document.getElementById('inlineSearchResults');
+      const searchInput = document.getElementById('inlineSearchInput');
+
+      if (e.key === 'Escape') {
+        if (searchResults && searchResults.style.display !== 'none') {
+          this.closeInlineSearchResults();
+          return;
+        }
+        if (document.getElementById('numpadModal')?.classList.contains('open')) {
+          this.closeNumpad();
+          return;
+        }
+        if (document.getElementById('lightboxModal')?.classList.contains('open')) {
+          this.closeLightbox();
+          return;
+        }
       }
+
       if (document.getElementById('numpadModal')?.classList.contains('open')) {
-        if (e.key === 'Escape') this.closeNumpad();
         if (e.key >= '0' && e.key <= '9') this.numpadPress(e.key);
         if (e.key === 'Enter') this.numpadSubmit();
         if (e.key === 'Backspace') this.numpadBackspace();
         return;
       }
-      if (document.getElementById('lightboxModal')?.classList.contains('open')) {
-        if (e.key === 'Escape') this.closeLightbox();
+
+      // Не перехватываем горячие клавиши, если фокус в инпуте поиска или страницы
+      if (e.target.tagName === 'INPUT') {
         return;
       }
 
@@ -630,12 +743,15 @@ class TeacherApp {
       } else if (e.key === 'ArrowRight') {
         e.preventDefault();
         this.nextPage();
-      } else if (e.key === ' ' && e.target.tagName !== 'INPUT') {
+      } else if (e.key === ' ') {
         e.preventDefault();
         this.toggleAnswers();
       } else if ((e.key === 'f' || e.key === 'а') && (e.ctrlKey || e.metaKey)) {
         e.preventDefault();
-        this.openSearch();
+        if (searchInput) {
+          searchInput.focus();
+          searchInput.select();
+        }
       }
     });
   }
