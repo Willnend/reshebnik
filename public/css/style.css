@@ -25,13 +25,14 @@
   --radius-md: 14px;
   --radius-lg: 20px;
   --font-base: 18px;
+  --font-scale: 1.25;
 }
 
-/* Изменение масштаба для проектора/учителя */
-body.font-sm { --font-base: 16px; }
-body.font-md { --font-base: 18px; }
-body.font-lg { --font-base: 22px; }
-body.font-xl { --font-base: 26px; }
+/* Изменение масштаба текста заданий и ответов для учителя и проектора */
+body.font-sm { --font-base: 16px; --font-scale: 1; }
+body.font-md { --font-base: 18px; --font-scale: 1.25; }
+body.font-lg { --font-base: 22px; --font-scale: 1.55; }
+body.font-xl { --font-base: 26px; --font-scale: 1.9; }
 
 * {
   box-sizing: border-box;
@@ -151,6 +152,16 @@ body {
   background: #ECFDF5;
   color: #065F46;
   border-color: #A7F3D0;
+}
+
+.font-badge {
+  background: var(--primary);
+  color: #FFFFFF;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.3px;
 }
 
 /* ================== ВЫБОР УЧЕБНИКОВ (CHIPS/TABS) ================== */
@@ -475,10 +486,11 @@ body {
 }
 
 .page-main-heading {
-  font-size: 1.6rem;
+  font-size: calc(1.6rem * var(--font-scale, 1.25));
   font-weight: 800;
   color: var(--text-main);
   margin-top: 4px;
+  transition: font-size 0.2s ease;
 }
 
 .page-topic-tag {
@@ -488,8 +500,9 @@ body {
   padding: 4px 12px;
   border-radius: 999px;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: calc(0.9rem * var(--font-scale, 1.25));
   margin-top: 8px;
+  transition: font-size 0.2s ease;
 }
 
 /* Переключатель года издания (2020 / 2023) */
@@ -530,28 +543,36 @@ body {
 }
 
 /* Оформление контента заданий из gdz-raketa */
-.exercise-content h2, .exercise-content h3 {
-  color: var(--primary);
-  font-size: 1.35rem;
-  margin: 24px 0 12px 0;
-  font-weight: 800;
+.exercise-content {
+  font-size: calc(1.1rem * var(--font-scale, 1.25));
+  transition: font-size 0.2s ease;
 }
 
-.exercise-content p.text, .exercise-content .rus2 {
-  font-size: 1.1rem;
+.exercise-content h2, .exercise-content h3 {
+  color: var(--primary);
+  font-size: calc(1.35rem * var(--font-scale, 1.25));
+  margin: 24px 0 12px 0;
+  font-weight: 800;
+  transition: font-size 0.2s ease;
+}
+
+.exercise-content p.text, .exercise-content .rus2, .exercise-content p {
+  font-size: calc(1.1rem * var(--font-scale, 1.25));
   line-height: 1.7;
   margin: 14px 0;
   color: var(--text-main);
+  transition: font-size 0.2s ease;
 }
 
 .exercise-content .nomer-bold {
   color: #1E293B;
-  font-size: 1.15rem;
+  font-size: calc(1.15rem * var(--font-scale, 1.25));
   background: #F1F5F9;
   padding: 4px 10px;
   border-radius: 6px;
   display: inline-block;
   margin: 16px 0 8px 0;
+  transition: font-size 0.2s ease;
 }
 
 /* Блок ответов */
@@ -563,9 +584,10 @@ body {
   color: #FFFFFF;
   padding: 4px 14px;
   border-radius: 6px;
-  font-size: 0.95rem;
+  font-size: calc(0.95rem * var(--font-scale, 1.25));
   margin-top: 14px;
   margin-bottom: 8px;
+  transition: font-size 0.2s ease;
 }
 
 .exercise-content .sdvig {
@@ -574,7 +596,8 @@ body {
   border-radius: 0 var(--radius-md) var(--radius-md) 0;
   padding: 16px 20px;
   margin: 8px 0 20px 0;
-  font-size: 1.05rem;
+  font-size: calc(1.05rem * var(--font-scale, 1.25));
+  transition: font-size 0.2s ease;
 }
 
 .exercise-content .sdvig p {

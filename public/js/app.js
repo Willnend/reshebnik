@@ -13,6 +13,8 @@ class TeacherApp {
     this.selectedEdition = '2023';
     this.fontSizeIndex = 1; // 0: sm, 1: md, 2: lg, 3: xl
     this.fontSizes = ['font-sm', 'font-md', 'font-lg', 'font-xl'];
+    this.fontLabels = ['100%', '125%', '155%', '190%'];
+    this.fontNames = ['Обычный', 'Крупный', 'Большой', 'Проектор'];
     this.searchIndex = [];
     this.numpadBuffer = '';
 
@@ -49,11 +51,13 @@ class TeacherApp {
 
   loadSavedSettings() {
     const savedFont = localStorage.getItem('teacher_font_size');
-    if (savedFont) {
-      this.fontSizeIndex = parseInt(savedFont, 10);
-      document.body.classList.remove(...this.fontSizes);
-      document.body.classList.add(this.fontSizes[this.fontSizeIndex]);
+    if (savedFont !== null && !isNaN(parseInt(savedFont, 10))) {
+      const idx = parseInt(savedFont, 10);
+      if (idx >= 0 && idx < this.fontSizes.length) {
+        this.fontSizeIndex = idx;
+      }
     }
+    this.updateFontSizeUI();
 
     const savedHide = localStorage.getItem('teacher_hide_answers');
     if (savedHide === 'true') {
@@ -312,11 +316,27 @@ class TeacherApp {
     localStorage.setItem('teacher_hide_answers', this.answersHidden);
   }
 
-  cycleFontSize() {
-    document.body.classList.remove(this.fontSizes[this.fontSizeIndex]);
-    this.fontSizeIndex = (this.fontSizeIndex + 1) % this.fontSizes.length;
-    document.body.classList.add(this.fontSizes[this.fontSizeIndex]);
+  updateFontSizeUI() {
+    // Безопасно снимаем все классы шрифтов и вешаем активный
+    document.body.classList.remove(...this.fontSizes);
+    const activeClass = this.fontSizes[this.fontSizeIndex] || 'font-md';
+    document.body.classList.add(activeClass);
+
+    // Обновляем кнопку в шапке и показываем текущий процент масштаба
+    const btn = document.getElementById('fontSizeBtn');
+    if (btn) {
+      const label = this.fontLabels[this.fontSizeIndex] || '125%';
+      const name = this.fontNames[this.fontSizeIndex] || 'Крупный';
+      btn.innerHTML = `<span>🔠</span> Шрифт <span class="font-badge">${label}</span>`;
+      btn.title = `Размер текста: ${name} (${label}). Нажмите для переключения (100% → 125% → 155% → 190%).`;
+    }
+
     localStorage.setItem('teacher_font_size', this.fontSizeIndex);
+  }
+
+  cycleFontSize() {
+    this.fontSizeIndex = (this.fontSizeIndex + 1) % this.fontSizes.length;
+    this.updateFontSizeUI();
   }
 
   // ================= NUMPAD ДЛЯ БЫСТРОГО НАБОРА НА IPAD =================
