@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3B82F6"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+    <linearGradient id="book" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F1F5F9"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Фон со скруглением для iOS и Windows -->
+  <rect width="512" height="512" rx="115" fill="url(#bg)"/>
+  
+  <!-- Символ открытой книги -->
+  <path d="M110 370 C170 335 230 345 256 360 C282 345 342 335 402 370 L402 165 C342 130 282 140 256 155 C230 140 170 130 110 165 Z" fill="url(#book)" filter="drop-shadow(0 8px 16px rgba(0,0,0,0.25))"/>
+  
+  <!-- Переплет книги -->
+  <path d="M256 155 L256 360" stroke="#CBD5E1" stroke-width="6" stroke-linecap="round"/>
+  
+  <!-- Текстовые линии книги (страницы) -->
+  <line x1="145" y1="205" x2="225" y2="195" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+  <line x1="145" y1="240" x2="225" y2="230" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+  <line x1="145" y1="275" x2="210" y2="265" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+  <line x1="145" y1="310" x2="195" y2="300" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+
+  <line x1="287" y1="195" x2="367" y2="205" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+  <line x1="287" y1="230" x2="367" y2="240" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+  <line x1="287" y1="265" x2="352" y2="275" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+  <line x1="287" y1="300" x2="337" y2="310" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Золотая звезда или значок "1 класс" -->
+  <circle cx="395" cy="125" r="48" fill="url(#accent)" filter="drop-shadow(0 6px 12px rgba(0,0,0,0.3))"/>
+  <text x="395" y="142" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="44" font-weight="900" fill="#FFFFFF" text-anchor="middle">1</text>
+</svg>

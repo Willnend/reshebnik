@@ -1,0 +1,53 @@
+# codemagic.yaml
+# Конфигурация облачной сборки iOS (.ipa) для Codemagic (https://codemagic.io)
+# Собирает файл Reshebnik_1klass.ipa для установки на iPad и iPhone через Sideloadly
+
+workflows:
+  ios-release:
+    name: Сборка iOS IPA для Sideloadly (iPad / iPhone)
+    max_build_duration: 30
+    instance_type: mac_mini_m1
+    environment:
+      node: 20.x
+      xcode: latest
+      cocoapods: default
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: '*'
+          include: true
+          source: true
+    scripts:
+      - name: Установка зависимостей проекта
+        script: |
+          npm install
+
+      - name: Синхронизация файлов учебников и оболочки в iOS
+        script: |
+          npx cap sync ios
+
+      - name: Сборка нативного архива Xcode
+        script: |
+          cd ios/App
+          xcodebuild -project App.xcodeproj \
+            -scheme App \
+            -configuration Release \
+            -destination generic/platform=iOS \
+            -archivePath build/App.xcarchive \
+            archive \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY=""
+
+      - name: Упаковка приложения в готовый .ipa файл
+        script: |
+          cd ios/App
+          mkdir -p build/Payload
+          cp -r build/App.xcarchive/Products/Applications/App.app build/Payload/
+          cd build && zip -r "Reshebnik_1klass.ipa" Payload
+          echo "Файл Reshebnik_1klass.ipa успешно создан!"
+
+    artifacts:
+      - ios/App/build/*.ipa
+      - ios/App/build/App.xcarchive

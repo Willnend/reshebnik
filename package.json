@@ -1,0 +1,60 @@
+{
+  "name": "teacher-reshebnik-1klass",
+  "version": "1.0.0",
+  "description": "Автономный локальный решебник для учителя (1 класс) для Windows, iPad и iPhone",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "desktop": "electron .",
+    "build:win": "electron-builder --win",
+    "test": "node tests/run_all_tests.js",
+    "scrape": "node scraper/scrape_all.js"
+  },
+  "build": {
+    "appId": "com.teacher.reshebnik1klass",
+    "productName": "Решебник 1 класс",
+    "copyright": "Copyright © 2026",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "electron/**/*",
+      "public/**/*",
+      "data/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "public/icons/icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Решебник 1 класс",
+      "uninstallDisplayName": "Решебник 1 класс (ГДЗ для Учителя)"
+    }
+  },
+  "keywords": [
+    "gdz",
+    "reshebnik",
+    "teacher",
+    "pwa",
+    "offline"
+  ],
+  "author": "Teacher Tools",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^44.4.1",
+    "electron-builder": "^26.15.3"
+  },
+  "dependencies": {
+    "@capacitor/cli": "^8.5.2",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/ios": "^8.5.2"
+  }
+}

@@ -1,0 +1,116 @@
+[
+  {
+    "id": "math",
+    "title": "Математика",
+    "grade": 1,
+    "authors": "Моро М. И., Волкова С. И., Степанова С. В.",
+    "series": "Школа России (ФГОС)",
+    "icon": "📐",
+    "color": "#3B82F6",
+    "cover": "/images/1chast_623c8c2d6830.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 124,
+        "minPage": 4,
+        "maxPage": 127
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 108,
+        "minPage": 4,
+        "maxPage": 111
+      }
+    }
+  },
+  {
+    "id": "azbuka",
+    "title": "Азбука",
+    "grade": 1,
+    "authors": "Горецкий В. Г., Кирюшкин В. А., Виноградская Л. А.",
+    "series": "Школа России (ФГОС)",
+    "icon": "🔤",
+    "color": "#10B981",
+    "cover": "/images/chast1-2_cc54d79eda20.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 119,
+        "minPage": 4,
+        "maxPage": 123
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 101,
+        "minPage": 4,
+        "maxPage": 111
+      }
+    }
+  },
+  {
+    "id": "russian",
+    "title": "Русский язык",
+    "grade": 1,
+    "authors": "Канакина В. П., Горецкий В. Г.",
+    "series": "Школа России (ФГОС)",
+    "icon": "📖",
+    "color": "#8B5CF6",
+    "cover": "/images/chast_b09b0b65d530.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 123,
+        "minPage": 6,
+        "maxPage": 133
+      }
+    }
+  },
+  {
+    "id": "world",
+    "title": "Окружающий мир",
+    "grade": 1,
+    "authors": "Плешаков А. А.",
+    "series": "Школа России (ФГОС)",
+    "icon": "🌍",
+    "color": "#F59E0B",
+    "cover": "/images/chast1-2_df78eb05afb9.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 85,
+        "minPage": 3,
+        "maxPage": 87
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 81,
+        "minPage": 3,
+        "maxPage": 83
+      }
+    }
+  },
+  {
+    "id": "reading",
+    "title": "Литературное чтение",
+    "grade": 1,
+    "authors": "Климанова Л. Ф., Горецкий В. Г., Голованова М. В.",
+    "series": "Школа России (ФГОС)",
+    "icon": "📚",
+    "color": "#EC4899",
+    "cover": "/images/chast1-2_5b2cbdc1b485.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 73,
+        "minPage": 3,
+        "maxPage": 75
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 73,
+        "minPage": 3,
+        "maxPage": 75
+      }
+    }
+  }
+]

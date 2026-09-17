@@ -1,0 +1,18 @@
+{
+  "name": "Решебник 1 класс (ГДЗ для Учителя)",
+  "short_name": "Решебник 1 кл",
+  "description": "Локальная база заданий и ответов для 1 класса: Математика, Азбука, Русский язык, Окружающий мир, Литературное чтение",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0F172A",
+  "theme_color": "#2563EB",
+  "icons": [
+    {
+      "src": "/icons/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
