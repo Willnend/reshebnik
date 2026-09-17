@@ -31,16 +31,20 @@
 
       <div class="teacher-toolbar">
         <button id="toggleAnswersBtn" class="tool-btn toggle-answers-btn active" title="Скрыть или показать ответы на уроке (Пробел)">
-          <span>🙈</span> Скрыть ответы
+          <span class="tool-btn-icon">🙈</span>
+          <span class="tool-btn-text"><span class="tool-label-action">Скрыть</span><span class="tool-label-extra"> ответы</span></span>
         </button>
         <button id="fontSizeBtn" class="tool-btn" title="Изменить размер текста для проектора">
-          <span>🔠</span> Шрифт <span class="font-badge">125%</span>
+          <span class="tool-btn-icon">🔠</span>
+          <span class="tool-btn-text"><span class="tool-label-extra">Шрифт </span><span class="font-badge">125%</span></span>
         </button>
         <button id="themeToggleBtn" class="tool-btn theme-toggle-btn" title="Переключить тему (Светлая / Тёмная)">
-          <span class="theme-icon">🌙</span> <span class="theme-label">Тёмная</span>
+          <span class="theme-icon tool-btn-icon">🌙</span>
+          <span class="theme-label tool-btn-text">Тёмная</span>
         </button>
         <button id="fullscreenBtn" class="tool-btn fullscreen-btn" title="Полноэкранный режим для проектора (F11)">
-          <span class="fs-icon">⛶</span> <span class="fs-label">Экран</span>
+          <span class="fs-icon tool-btn-icon">⛶</span>
+          <span class="fs-label tool-btn-text">Экран</span>
         </button>
       </div>
     </div>
@@ -146,11 +150,6 @@
     <button id="lightboxClose" class="lightbox-close">&times;</button>
     <img id="lightboxImg" class="lightbox-img" src="" alt="Увеличенное изображение">
   </div>
-
-  <!-- ПЛАВАЮЩАЯ КНОПКА ВЫХОДА ИЗ ПОЛНОЭКРАННОГО РЕЖИМА (ДЛЯ ПРОЕКТОРА) -->
-  <button id="floatingExitFsBtn" class="floating-exit-fs" style="display:none;" title="Выйти из полноэкранного режима (Esc или F11)">
-    <span>🗗</span> Свернуть экран (Esc)
-  </button>
 
   <script src="./js/storage.js"></script>
   <script src="./js/app.js"></script>

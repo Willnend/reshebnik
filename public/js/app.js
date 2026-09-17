@@ -240,6 +240,9 @@ class TeacherApp {
       contentEl.innerHTML = page.contentHtml;
     }
 
+    // Инициализируем переключатели способов решения (№1, №2...)
+    this.initTabs(contentEl);
+
     // Навешиваем зум на картинки
     contentEl.querySelectorAll('img').forEach(img => {
       img.addEventListener('click', () => {
@@ -252,6 +255,7 @@ class TeacherApp {
     const contentEl = document.getElementById('pageContent');
     if (!page.editionData) {
       contentEl.innerHTML = page.contentHtml;
+      this.initTabs(contentEl);
       return;
     }
 
@@ -266,6 +270,79 @@ class TeacherApp {
 
     // Если есть общий контент страницы после вкладок, добавляем его
     contentEl.innerHTML = edHtml;
+    this.initTabs(contentEl);
+    contentEl.querySelectorAll('img').forEach(img => {
+      img.addEventListener('click', () => {
+        this.openLightbox(img.src);
+      });
+    });
+  }
+
+  // ================= ПЕРЕКЛЮЧЕНИЕ СПОСОБОВ РЕШЕНИЯ (№1, №2...) =================
+  initTabs(contentContainer) {
+    if (!contentContainer) return;
+    const tabContainers = contentContainer.querySelectorAll('tab-container');
+    if (!tabContainers || tabContainers.length === 0) return;
+
+    tabContainers.forEach((container, groupIdx) => {
+      const radios = Array.from(container.querySelectorAll('input[type="radio"]'));
+      const labels = Array.from(container.querySelectorAll('label'));
+      const contents = Array.from(container.querySelectorAll('tab-content'));
+
+      if (contents.length === 0) return;
+
+      const groupName = `tabgroup_${Date.now()}_${groupIdx}_${Math.floor(Math.random() * 10000)}`;
+
+      // Определяем начальную активную вкладку (по checked или первую)
+      let activeIndex = 0;
+      radios.forEach((radio, idx) => {
+        if (radio.checked) activeIndex = idx;
+      });
+
+      const updateTabState = (newIndex) => {
+        activeIndex = newIndex;
+        radios.forEach((r, idx) => {
+          r.checked = (idx === newIndex);
+        });
+        labels.forEach((l, idx) => {
+          l.classList.toggle('active', idx === newIndex);
+        });
+        contents.forEach((c, idx) => {
+          if (idx === newIndex) {
+            c.style.display = 'block';
+            c.classList.add('active');
+          } else {
+            c.style.display = 'none';
+            c.classList.remove('active');
+          }
+        });
+      };
+
+      radios.forEach((radio, idx) => {
+        radio.name = groupName;
+        const uniqueId = `${groupName}_r${idx}`;
+        radio.id = uniqueId;
+        if (labels[idx]) {
+          labels[idx].htmlFor = uniqueId;
+        }
+
+        radio.addEventListener('change', () => {
+          if (radio.checked) {
+            updateTabState(idx);
+          }
+        });
+      });
+
+      labels.forEach((label, idx) => {
+        label.addEventListener('click', (e) => {
+          e.preventDefault();
+          updateTabState(idx);
+        });
+      });
+
+      // Применяем начальное состояние
+      updateTabState(activeIndex);
+    });
   }
 
   setEdition(year) {
@@ -316,10 +393,10 @@ class TeacherApp {
     const btn = document.getElementById('toggleAnswersBtn');
     if (btn) {
       if (this.answersHidden) {
-        btn.innerHTML = '<span>👁</span> Показать ответы';
+        btn.innerHTML = '<span class="tool-btn-icon">👁</span> <span class="tool-btn-text"><span class="tool-label-action">Показать</span><span class="tool-label-extra"> ответы</span></span>';
         btn.classList.remove('active');
       } else {
-        btn.innerHTML = '<span>🙈</span> Скрыть ответы';
+        btn.innerHTML = '<span class="tool-btn-icon">🙈</span> <span class="tool-btn-text"><span class="tool-label-action">Скрыть</span><span class="tool-label-extra"> ответы</span></span>';
         btn.classList.add('active');
       }
     }
@@ -337,7 +414,7 @@ class TeacherApp {
     if (btn) {
       const label = this.fontLabels[this.fontSizeIndex] || '125%';
       const name = this.fontNames[this.fontSizeIndex] || 'Крупный';
-      btn.innerHTML = `<span>🔠</span> Шрифт <span class="font-badge">${label}</span>`;
+      btn.innerHTML = `<span class="tool-btn-icon">🔠</span> <span class="tool-btn-text"><span class="tool-label-extra">Шрифт </span><span class="font-badge">${label}</span></span>`;
       btn.title = `Размер текста: ${name} (${label}). Нажмите для переключения (100% → 125% → 155% → 190%).`;
     }
 
@@ -357,16 +434,9 @@ class TeacherApp {
 
     const btn = document.getElementById('themeToggleBtn');
     if (btn) {
-      const icon = btn.querySelector('.theme-icon');
-      const label = btn.querySelector('.theme-label');
-      if (icon && label) {
-        icon.textContent = isDark ? '☀️' : '🌙';
-        label.textContent = isDark ? 'Светлая' : 'Тёмная';
-      } else {
-        btn.innerHTML = isDark
-          ? '<span class="theme-icon">☀️</span> <span class="theme-label">Светлая</span>'
-          : '<span class="theme-icon">🌙</span> <span class="theme-label">Тёмная</span>';
-      }
+      btn.innerHTML = isDark
+        ? '<span class="theme-icon tool-btn-icon">☀️</span> <span class="theme-label tool-btn-text">Светлая</span>'
+        : '<span class="theme-icon tool-btn-icon">🌙</span> <span class="theme-label tool-btn-text">Тёмная</span>';
       btn.title = isDark ? 'Переключить на светлую тему' : 'Переключить на тёмную тему для вечерней работы';
     }
 
@@ -419,24 +489,15 @@ class TeacherApp {
 
     const btn = document.getElementById('fullscreenBtn');
     if (btn) {
-      const icon = btn.querySelector('.fs-icon');
-      const label = btn.querySelector('.fs-label');
       if (isFull) {
-        if (icon) icon.textContent = '🗗';
-        if (label) label.textContent = 'Свернуть';
+        btn.innerHTML = '<span class="fs-icon tool-btn-icon">🗗</span> <span class="fs-label tool-btn-text">Свернуть</span>';
         btn.classList.add('active-fullscreen');
         btn.title = 'Свернуть полноэкранный режим (Esc / F11)';
       } else {
-        if (icon) icon.textContent = '⛶';
-        if (label) label.textContent = 'Экран';
+        btn.innerHTML = '<span class="fs-icon tool-btn-icon">⛶</span> <span class="fs-label tool-btn-text">Экран</span>';
         btn.classList.remove('active-fullscreen');
         btn.title = 'Полноэкранный режим для проектора (F11)';
       }
-    }
-
-    const floatingBtn = document.getElementById('floatingExitFsBtn');
-    if (floatingBtn) {
-      floatingBtn.style.display = isFull ? 'inline-flex' : 'none';
     }
   }
 
@@ -813,7 +874,6 @@ class TeacherApp {
     document.getElementById('fontSizeBtn')?.addEventListener('click', () => this.cycleFontSize());
     document.getElementById('themeToggleBtn')?.addEventListener('click', () => this.toggleTheme());
     document.getElementById('fullscreenBtn')?.addEventListener('click', () => this.toggleFullScreen());
-    document.getElementById('floatingExitFsBtn')?.addEventListener('click', () => this.exitFullScreen());
 
     // Отслеживание перехода в полноэкранный режим
     document.addEventListener('fullscreenchange', () => {
