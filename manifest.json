@@ -1,0 +1,30 @@
+{
+  "name": "Решебник: Начальная школа (1–4 классы)",
+  "short_name": "Решебник 1-4кл",
+  "description": "Офлайн-база заданий и решений для учителей начальной школы: Математика, Русский язык, Литературное чтение, Окружающий мир, Азбука — 1–4 классы",
+  "start_url": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F5F0E6",
+  "theme_color": "#F5F0E6",
+  "icons": [
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "./icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

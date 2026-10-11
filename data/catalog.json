@@ -1,0 +1,404 @@
+[
+  {
+    "id": "azbuka",
+    "title": "Азбука",
+    "grade": 1,
+    "authors": "Горецкий В. Г., Кирюшкин В. А., Виноградская Л. А.",
+    "series": "Школа России (ФГОС)",
+    "icon": "🔤",
+    "color": "#10B981",
+    "cover": "/images/chast1-2_cc54d79eda20.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 119,
+        "minPage": 4,
+        "maxPage": 123
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 101,
+        "minPage": 4,
+        "maxPage": 111
+      }
+    }
+  },
+  {
+    "id": "reading",
+    "title": "Литературное чтение",
+    "grade": 1,
+    "authors": "Климанова Л. Ф., Горецкий В. Г., Голованова М. В.",
+    "series": "Школа России (ФГОС)",
+    "icon": "📚",
+    "color": "#EC4899",
+    "cover": "/images/chast1-2_5b2cbdc1b485.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 73,
+        "minPage": 3,
+        "maxPage": 75
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 73,
+        "minPage": 3,
+        "maxPage": 75
+      }
+    }
+  },
+  {
+    "id": "math",
+    "title": "Математика",
+    "grade": 1,
+    "authors": "Моро М. И., Волкова С. И., Степанова С. В.",
+    "series": "Школа России (ФГОС)",
+    "icon": "📐",
+    "color": "#3B82F6",
+    "cover": "/images/1chast_623c8c2d6830.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 124,
+        "minPage": 4,
+        "maxPage": 127
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 108,
+        "minPage": 4,
+        "maxPage": 111
+      }
+    }
+  },
+  {
+    "id": "world",
+    "title": "Окружающий мир",
+    "grade": 1,
+    "authors": "Плешаков А. А.",
+    "series": "Школа России (ФГОС)",
+    "icon": "🌍",
+    "color": "#F59E0B",
+    "cover": "/images/chast1-2_df78eb05afb9.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 85,
+        "minPage": 3,
+        "maxPage": 87
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 81,
+        "minPage": 3,
+        "maxPage": 83
+      }
+    }
+  },
+  {
+    "id": "russian",
+    "title": "Русский язык",
+    "grade": 1,
+    "authors": "Канакина В. П., Горецкий В. Г.",
+    "series": "Школа России (ФГОС)",
+    "icon": "📖",
+    "color": "#8B5CF6",
+    "cover": "/images/chast_b09b0b65d530.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 123,
+        "minPage": 6,
+        "maxPage": 133
+      }
+    }
+  },
+  {
+    "id": "reading_2",
+    "title": "Литературное чтение",
+    "grade": 2,
+    "authors": "Климанова Л. Ф., Горецкий В. Г., Голованова М. В.",
+    "series": "Школа России (ФГОС)",
+    "icon": "📚",
+    "color": "#EC4899",
+    "cover": "/images/chast1-2_7d1d238b514e.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 217,
+        "minPage": 3,
+        "maxPage": 219
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 214,
+        "minPage": 5,
+        "maxPage": 219
+      }
+    }
+  },
+  {
+    "id": "math_2",
+    "title": "Математика",
+    "grade": 2,
+    "authors": "Моро М. И., Бантова М. А., Бельтюкова Г. В.",
+    "series": "Школа России (ФГОС)",
+    "icon": "📐",
+    "color": "#3B82F6",
+    "cover": "/images/chast1-2_41c36bf7c52d.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 107,
+        "minPage": 4,
+        "maxPage": 110
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 108,
+        "minPage": 4,
+        "maxPage": 111
+      }
+    }
+  },
+  {
+    "id": "world_2",
+    "title": "Окружающий мир",
+    "grade": 2,
+    "authors": "Плешаков А. А.",
+    "series": "Школа России (ФГОС)",
+    "icon": "🌍",
+    "color": "#F59E0B",
+    "cover": "/images/chast1-2_f71b81961f19.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 134,
+        "minPage": 6,
+        "maxPage": 139
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 137,
+        "minPage": 4,
+        "maxPage": 140
+      }
+    }
+  },
+  {
+    "id": "russian_2",
+    "title": "Русский язык",
+    "grade": 2,
+    "authors": "Канакина В. П., Горецкий В. Г.",
+    "series": "Школа России (ФГОС)",
+    "icon": "📖",
+    "color": "#8B5CF6",
+    "cover": "/images/chast1-2_9aba348e0fad.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 130,
+        "minPage": 6,
+        "maxPage": 135
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 129,
+        "minPage": 4,
+        "maxPage": 132
+      }
+    }
+  },
+  {
+    "id": "reading_3",
+    "title": "Литературное чтение",
+    "grade": 3,
+    "authors": "Климанова Л. Ф., Горецкий В. Г., Голованова М. В.",
+    "series": "Школа России (ФГОС)",
+    "icon": "📚",
+    "color": "#EC4899",
+    "cover": "/images/chast1-2_5fd76d94801f.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 218,
+        "minPage": 3,
+        "maxPage": 220
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 215,
+        "minPage": 3,
+        "maxPage": 217
+      }
+    }
+  },
+  {
+    "id": "math_3",
+    "title": "Математика",
+    "grade": 3,
+    "authors": "Моро М. И., Бантова М. А., Бельтюкова Г. В.",
+    "series": "Школа России (ФГОС)",
+    "icon": "📐",
+    "color": "#3B82F6",
+    "cover": "/images/chast1-2_07954858b02d.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 108,
+        "minPage": 4,
+        "maxPage": 111
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 108,
+        "minPage": 4,
+        "maxPage": 111
+      }
+    }
+  },
+  {
+    "id": "world_3",
+    "title": "Окружающий мир",
+    "grade": 3,
+    "authors": "Плешаков А. А.",
+    "series": "Школа России (ФГОС)",
+    "icon": "🌍",
+    "color": "#F59E0B",
+    "cover": "/images/chast1-2_de1deedd9be4.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 150,
+        "minPage": 4,
+        "maxPage": 153
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 124,
+        "minPage": 4,
+        "maxPage": 127
+      }
+    }
+  },
+  {
+    "id": "russian_3",
+    "title": "Русский язык",
+    "grade": 3,
+    "authors": "Канакина В. П., Горецкий В. Г.",
+    "series": "Школа России (ФГОС)",
+    "icon": "📖",
+    "color": "#8B5CF6",
+    "cover": "/images/chast1-2_b9f2049e67c3.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 137,
+        "minPage": 6,
+        "maxPage": 142
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 141,
+        "minPage": 3,
+        "maxPage": 143
+      }
+    }
+  },
+  {
+    "id": "reading_4",
+    "title": "Литературное чтение",
+    "grade": 4,
+    "authors": "Климанова Л. Ф., Горецкий В. Г., Голованова М. В.",
+    "series": "Школа России (ФГОС)",
+    "icon": "📚",
+    "color": "#EC4899",
+    "cover": "/images/chast1-2_36b2dda8df9b.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 153,
+        "minPage": 3,
+        "maxPage": 155
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 153,
+        "minPage": 4,
+        "maxPage": 156
+      }
+    }
+  },
+  {
+    "id": "math_4",
+    "title": "Математика",
+    "grade": 4,
+    "authors": "Моро М. И., Бантова М. А., Бельтюкова Г. В.",
+    "series": "Школа России (ФГОС)",
+    "icon": "📐",
+    "color": "#3B82F6",
+    "cover": "/images/chast1-2_38f482ff0beb.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 109,
+        "minPage": 3,
+        "maxPage": 111
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 125,
+        "minPage": 3,
+        "maxPage": 127
+      }
+    }
+  },
+  {
+    "id": "world_4",
+    "title": "Окружающий мир",
+    "grade": 4,
+    "authors": "Плешаков А. А.",
+    "series": "Школа России (ФГОС)",
+    "icon": "🌍",
+    "color": "#F59E0B",
+    "cover": "/images/chast1-2_1353d03f9a55.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 150,
+        "minPage": 6,
+        "maxPage": 155
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 153,
+        "minPage": 3,
+        "maxPage": 155
+      }
+    }
+  },
+  {
+    "id": "russian_4",
+    "title": "Русский язык",
+    "grade": 4,
+    "authors": "Канакина В. П., Горецкий В. Г.",
+    "series": "Школа России (ФГОС)",
+    "icon": "📖",
+    "color": "#8B5CF6",
+    "cover": "/images/chast1-2_9230c526bf8f.jpg",
+    "parts": {
+      "1": {
+        "partNumber": 1,
+        "pagesCount": 139,
+        "minPage": 6,
+        "maxPage": 144
+      },
+      "2": {
+        "partNumber": 2,
+        "pagesCount": 141,
+        "minPage": 4,
+        "maxPage": 144
+      }
+    }
+  }
+]
