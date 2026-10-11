@@ -4,9 +4,7 @@
     "title": "Азбука",
     "grade": 1,
     "authors": "Горецкий В. Г., Кирюшкин В. А., Виноградская Л. А.",
-    "series": "Школа России (ФГОС)",
-    "icon": "🔤",
-    "color": "#10B981",
+    "series": "ФГОС",
     "cover": "/images/chast1-2_cc54d79eda20.jpg",
     "parts": {
       "1": {
@@ -28,9 +26,7 @@
     "title": "Литературное чтение",
     "grade": 1,
     "authors": "Климанова Л. Ф., Горецкий В. Г., Голованова М. В.",
-    "series": "Школа России (ФГОС)",
-    "icon": "📚",
-    "color": "#EC4899",
+    "series": "ФГОС",
     "cover": "/images/chast1-2_5b2cbdc1b485.jpg",
     "parts": {
       "1": {
@@ -52,9 +48,7 @@
     "title": "Математика",
     "grade": 1,
     "authors": "Моро М. И., Волкова С. И., Степанова С. В.",
-    "series": "Школа России (ФГОС)",
-    "icon": "📐",
-    "color": "#3B82F6",
+    "series": "ФГОС",
     "cover": "/images/1chast_623c8c2d6830.jpg",
     "parts": {
       "1": {
@@ -76,9 +70,7 @@
     "title": "Окружающий мир",
     "grade": 1,
     "authors": "Плешаков А. А.",
-    "series": "Школа России (ФГОС)",
-    "icon": "🌍",
-    "color": "#F59E0B",
+    "series": "ФГОС",
     "cover": "/images/chast1-2_df78eb05afb9.jpg",
     "parts": {
       "1": {
@@ -100,9 +92,7 @@
     "title": "Русский язык",
     "grade": 1,
     "authors": "Канакина В. П., Горецкий В. Г.",
-    "series": "Школа России (ФГОС)",
-    "icon": "📖",
-    "color": "#8B5CF6",
+    "series": "ФГОС",
     "cover": "/images/chast_b09b0b65d530.jpg",
     "parts": {
       "1": {
@@ -118,9 +108,7 @@
     "title": "Литературное чтение",
     "grade": 2,
     "authors": "Климанова Л. Ф., Горецкий В. Г., Голованова М. В.",
-    "series": "Школа России (ФГОС)",
-    "icon": "📚",
-    "color": "#EC4899",
+    "series": "ФГОС",
     "cover": "/images/chast1-2_7d1d238b514e.jpg",
     "parts": {
       "1": {
@@ -142,9 +130,7 @@
     "title": "Математика",
     "grade": 2,
     "authors": "Моро М. И., Бантова М. А., Бельтюкова Г. В.",
-    "series": "Школа России (ФГОС)",
-    "icon": "📐",
-    "color": "#3B82F6",
+    "series": "ФГОС",
     "cover": "/images/chast1-2_41c36bf7c52d.jpg",
     "parts": {
       "1": {
@@ -166,9 +152,7 @@
     "title": "Окружающий мир",
     "grade": 2,
     "authors": "Плешаков А. А.",
-    "series": "Школа России (ФГОС)",
-    "icon": "🌍",
-    "color": "#F59E0B",
+    "series": "ФГОС",
     "cover": "/images/chast1-2_f71b81961f19.jpg",
     "parts": {
       "1": {
@@ -190,9 +174,7 @@
     "title": "Русский язык",
     "grade": 2,
     "authors": "Канакина В. П., Горецкий В. Г.",
-    "series": "Школа России (ФГОС)",
-    "icon": "📖",
-    "color": "#8B5CF6",
+    "series": "ФГОС",
     "cover": "/images/chast1-2_9aba348e0fad.jpg",
     "parts": {
       "1": {
@@ -214,9 +196,7 @@
     "title": "Литературное чтение",
     "grade": 3,
     "authors": "Климанова Л. Ф., Горецкий В. Г., Голованова М. В.",
-    "series": "Школа России (ФГОС)",
-    "icon": "📚",
-    "color": "#EC4899",
+    "series": "ФГОС",
     "cover": "/images/chast1-2_5fd76d94801f.jpg",
     "parts": {
       "1": {
@@ -238,9 +218,7 @@
     "title": "Математика",
     "grade": 3,
     "authors": "Моро М. И., Бантова М. А., Бельтюкова Г. В.",
-    "series": "Школа России (ФГОС)",
-    "icon": "📐",
-    "color": "#3B82F6",
+    "series": "ФГОС",
     "cover": "/images/chast1-2_07954858b02d.jpg",
     "parts": {
       "1": {
@@ -262,9 +240,7 @@
     "title": "Окружающий мир",
     "grade": 3,
     "authors": "Плешаков А. А.",
-    "series": "Школа России (ФГОС)",
-    "icon": "🌍",
-    "color": "#F59E0B",
+    "series": "ФГОС",
     "cover": "/images/chast1-2_de1deedd9be4.jpg",
     "parts": {
       "1": {
@@ -286,9 +262,7 @@
     "title": "Русский язык",
     "grade": 3,
     "authors": "Канакина В. П., Горецкий В. Г.",
-    "series": "Школа России (ФГОС)",
-    "icon": "📖",
-    "color": "#8B5CF6",
+    "series": "ФГОС",
     "cover": "/images/chast1-2_b9f2049e67c3.jpg",
     "parts": {
       "1": {
@@ -310,9 +284,7 @@
     "title": "Литературное чтение",
     "grade": 4,
     "authors": "Климанова Л. Ф., Горецкий В. Г., Голованова М. В.",
-    "series": "Школа России (ФГОС)",
-    "icon": "📚",
-    "color": "#EC4899",
+    "series": "ФГОС",
     "cover": "/images/chast1-2_36b2dda8df9b.jpg",
     "parts": {
       "1": {
@@ -334,9 +306,7 @@
     "title": "Математика",
     "grade": 4,
     "authors": "Моро М. И., Бантова М. А., Бельтюкова Г. В.",
-    "series": "Школа России (ФГОС)",
-    "icon": "📐",
-    "color": "#3B82F6",
+    "series": "ФГОС",
     "cover": "/images/chast1-2_38f482ff0beb.jpg",
     "parts": {
       "1": {
@@ -358,9 +328,7 @@
     "title": "Окружающий мир",
     "grade": 4,
     "authors": "Плешаков А. А.",
-    "series": "Школа России (ФГОС)",
-    "icon": "🌍",
-    "color": "#F59E0B",
+    "series": "ФГОС",
     "cover": "/images/chast1-2_1353d03f9a55.jpg",
     "parts": {
       "1": {
@@ -382,9 +350,7 @@
     "title": "Русский язык",
     "grade": 4,
     "authors": "Канакина В. П., Горецкий В. Г.",
-    "series": "Школа России (ФГОС)",
-    "icon": "📖",
-    "color": "#8B5CF6",
+    "series": "ФГОС",
     "cover": "/images/chast1-2_9230c526bf8f.jpg",
     "parts": {
       "1": {

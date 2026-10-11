@@ -1,40 +1,36 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
   <defs>
-    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#3B82F6"/>
-      <stop offset="100%" stop-color="#1D4ED8"/>
-    </linearGradient>
-    <linearGradient id="book" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#FFFFFF"/>
-      <stop offset="100%" stop-color="#F1F5F9"/>
-    </linearGradient>
-    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#F59E0B"/>
-      <stop offset="100%" stop-color="#D97706"/>
-    </linearGradient>
+    <!-- «Тетрадь»: бумажный фон, чернильная книга, киноварная отметка -->
   </defs>
-  
-  <!-- Фон со скруглением для iOS и Windows -->
-  <rect width="512" height="512" rx="115" fill="url(#bg)"/>
-  
-  <!-- Символ открытой книги -->
-  <path d="M110 370 C170 335 230 345 256 360 C282 345 342 335 402 370 L402 165 C342 130 282 140 256 155 C230 140 170 130 110 165 Z" fill="url(#book)" filter="drop-shadow(0 8px 16px rgba(0,0,0,0.25))"/>
-  
-  <!-- Переплет книги -->
-  <path d="M256 155 L256 360" stroke="#CBD5E1" stroke-width="6" stroke-linecap="round"/>
-  
-  <!-- Текстовые линии книги (страницы) -->
-  <line x1="145" y1="205" x2="225" y2="195" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
-  <line x1="145" y1="240" x2="225" y2="230" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
-  <line x1="145" y1="275" x2="210" y2="265" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
-  <line x1="145" y1="310" x2="195" y2="300" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
 
-  <line x1="287" y1="195" x2="367" y2="205" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
-  <line x1="287" y1="230" x2="367" y2="240" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
-  <line x1="287" y1="265" x2="352" y2="275" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
-  <line x1="287" y1="300" x2="337" y2="310" stroke="#94A3B8" stroke-width="6" stroke-linecap="round"/>
+  <!-- Фон — тёплая бумага со скруглением -->
+  <rect width="512" height="512" rx="115" fill="#F5F0E6"/>
 
-  <!-- Золотая звезда или значок "1 класс" -->
-  <circle cx="395" cy="125" r="48" fill="url(#accent)" filter="drop-shadow(0 6px 12px rgba(0,0,0,0.3))"/>
-  <text x="395" y="142" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="44" font-weight="900" fill="#FFFFFF" text-anchor="middle">1</text>
+  <!-- Лёгкая тень под книгой -->
+  <ellipse cx="256" cy="388" rx="150" ry="16" fill="#1C2433" opacity="0.07"/>
+
+  <!-- Открытая книга: чернильный контур, бумажные страницы -->
+  <path d="M104 372 C168 336 230 346 256 362 C282 346 344 336 408 372 L408 158 C344 122 282 132 256 148 C230 132 168 122 104 158 Z"
+        fill="#FDFBF5" stroke="#1C2433" stroke-width="14" stroke-linejoin="round"/>
+
+  <!-- Переплёт -->
+  <path d="M256 150 L256 360" stroke="#1C2433" stroke-width="10" stroke-linecap="round"/>
+
+  <!-- Строки левой страницы -->
+  <line x1="138" y1="200" x2="222" y2="190" stroke="#1C2433" stroke-width="11" stroke-linecap="round" opacity="0.82"/>
+  <line x1="138" y1="238" x2="222" y2="228" stroke="#1C2433" stroke-width="11" stroke-linecap="round" opacity="0.82"/>
+  <line x1="138" y1="276" x2="206" y2="266" stroke="#1C2433" stroke-width="11" stroke-linecap="round" opacity="0.82"/>
+
+  <!-- Строки правой страницы -->
+  <line x1="290" y1="190" x2="374" y2="200" stroke="#1C2433" stroke-width="11" stroke-linecap="round" opacity="0.82"/>
+  <line x1="290" y1="228" x2="374" y2="238" stroke="#1C2433" stroke-width="11" stroke-linecap="round" opacity="0.82"/>
+  <line x1="290" y1="266" x2="352" y2="276" stroke="#1C2433" stroke-width="11" stroke-linecap="round" opacity="0.82"/>
+
+  <!-- Киноварная отметка «проверено ручкой» на правой странице -->
+  <path d="M296 306 C316 296 344 298 360 306" stroke="#A64826" stroke-width="12" stroke-linecap="round" fill="none"/>
+
+  <!-- Значок «1 класс» — киноварный круг -->
+  <circle cx="399" cy="118" r="52" fill="#A64826"/>
+  <circle cx="399" cy="118" r="52" fill="none" stroke="#F5F0E6" stroke-width="10"/>
+  <text x="399" y="136" font-family="Georgia, 'Times New Roman', serif" font-size="52" font-weight="700" fill="#FDFBF5" text-anchor="middle">1</text>
 </svg>
